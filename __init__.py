@@ -171,6 +171,7 @@ def menuPlanner():
 # My Menu ---------------------------
 @app.route('/myMenu')
 def myMenu():
-    return render_template('myMenu.html')
+    tempMenu = [{'Name:', 'Sunday', 'Dinner': {'Entree':'Burrito','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'10'},'Lunch': {'Entree':'Wrap','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'15'},'Breakfast': {'Entree':'Omelet','Side':'','Calories':'1000','Protein':'20','Carbs':'15'}},{'Name':'Monday', 'Dinner': {'Entree':'Burrito','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'10'},'Lunch': {'Entree':'Wrap','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'15'}, 'Breakfast': {'Entree':'Omelet','Side':'','Calories':'1000','Protein':'20','Carbs':'15'}}]
+    return render_template('myMenu.html', Menu=tempMenu)
 
 # Main Execution ------------------------------------------

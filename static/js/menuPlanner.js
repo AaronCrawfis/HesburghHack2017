@@ -17,6 +17,7 @@ $(document).ready(function() {
         else if(test == "sdh") document.getElementById('sdhDinnerEntrees').style.display = 'block';
     });
 
+    // Meal Divs -----------------------------------------------------------------------------
     $("input[name$='breakfast']").click(function() {
         var test = $(this).val();
         if(test == "yes") document.getElementById('bOptions').style.display = 'block';
