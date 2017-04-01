@@ -14,6 +14,8 @@ import flask_login
 from twilio import TwilioRestException
 from twilio.rest import TwilioRestClient
 
+import datetime
+
 # Variables -----------------------------------------------
 
 # App
@@ -70,15 +72,29 @@ def sendTextForFood(food, venue):
     except TwilioRestException as e:
         print(e)
 
+def nameOfDayInXDays(x):
+    dt = datetime.date.today() + datetime.timedelta(days=x)
+    return dt.strftime("%A")
+
+def writeFileFromForm(form):
+    pass
+
+def buildMenu():
+    pass
+
 # Path Handlers -------------------------------------------
+
+# Index ------------------------
 @app.route('/')
 def index():
-    return "Test"
+    return redirect(url_for('login'))
 
+# Dashboard --------------------
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
 
+# Login ------------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -95,18 +111,20 @@ def login():
         else:
             return render_template('login.html', failedLogin=True)
 
-
+# Protected ----------------------
 @app.route('/protected')
 @flask_login.login_required
 def protected():
     #return 'Logged in as: ' + flask_login.current_user.id
     return 'Protected'
 
+# Logout --------------------------
 @app.route('/logout')
 def logout():
     flask_login.logout_user()
-    return 'Logged out'
+    return redirect(url_for('login'))
 
+# New User ------------------------
 @app.route('/newUser', methods=['GET', 'POST'])
 def newUser():
     if request.method == 'GET':
@@ -114,10 +132,12 @@ def newUser():
     else:
         return redirect(url_for('login'))
 
+# Unauthorized ---------------------
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     return 'Unauthorized'
 
+# Food Alerts ----------------------
 @app.route('/foodAlerts', methods=['GET', 'POST'])
 def foodAlerts():
     if request.method == 'GET':
@@ -128,11 +148,29 @@ def foodAlerts():
         else:
             return render_template('foodAlerts.html', showSearch=True, showFood=False, foodDone=True)
 
+# Text Food ------------------------
 @app.route('/textFood')
 def textFood():
     sendTextForFood('Burrito Bar','NDH')
     return render_template('foodAlerts.html', showSearch=True, showFood=False, foodDone=True)
 
+# Menu Planner ----------------------
+@app.route('/menuPlanner', methods=['GET','POST'])
+def menuPlanner():
+    if request.method == 'GET':
+        return render_template('menuPlanner.html', dayName=nameOfDayInXDays(0), dayNum=0)
+    else:
+        dayNum = int(request.form['dayNum']) + 1
+        if dayNum <= 6:
+            writeFileFromForm(request.form)
+            return render_template('menuPlanner.html', dayName=nameOfDayInXDays(dayNum), dayNum=dayNum)
+        else:
+            buildMenu()
+            return redirect(url_for('myMenu'))
+
+# My Menu ---------------------------
+@app.route('/myMenu')
+def myMenu():
+    return render_template('myMenu.html')
+
 # Main Execution ------------------------------------------
-
-
