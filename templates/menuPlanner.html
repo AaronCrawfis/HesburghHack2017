@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Aaron Crawfis, Jack Casey">
+
+    <title>Menu Planner</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/sb-admin.css') }}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="dashboard">Irish Grub</a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Aaron Crawfis <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <a href="menuPlanner"><i class="fa fa-fw fa-calendar"></i> Menu Planner</a>
+                    </li>
+                    <li>
+                        <a href="myMenu"><i class="fa fa-fw fa-calendar"></i> My Menu</a>
+                    </li>
+                    <li>
+                        <a href="foodAlerts"><i class="fa fa-fw fa-bell"></i> Food Alerts</a>
+                    </li>
+                    <li>
+                        <a href="macroTracker"><i class="fa fa-fw fa-cutlery"></i> Macro Tracker</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Menu Planner
+                            <small>Plan for your next menu</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="dashboard">Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-file"></i> Menu Planner
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <!-- Content -->
+
+                <!-- Form -->
+                <form role="form" method="post">
+                    <h2>{{ dayName }}</h2>
+                    <input type="hidden" name="dayNum" value={{ dayNum }}>
+                    <br>
+                    <button class="btn btn-lg btn-info" name="submit" type="submit" value="Lucky">I'm Feeling Lucky</button>
+                    <button type="button" onclick="location.href = '/myMenu';" class="btn btn-primary btn-lg">My Menu</button>
+                    <br>
+                    <h3>Breakfast</h3>
+                    <input type="radio" name="breakfast" value="yes"> Yes
+                    <input type="radio" name="breakfast" value="no" checked="checked"> No
+                    <br>
+                    <div id="bOptions" class="desc" style="display: none;">
+                    <h4>Venue</h4>
+                    <input type="radio" name="bVenue" value="n" checked="checked"> No Preference
+                    <input type="radio" name="bVenue" value="ndh"> North Dining Hall
+                    <input type="radio" name="bVenue" value="sdh"> South Dining Hall
+                    <br>
+                    <h4>Nutrients</h4>
+                    <h5>Protein</h5>
+                    <input type="radio" name="bProtein" value="n" checked="checked"> No Preference
+                    <input type="radio" name="bProtein" value="h"> High
+                    <input type="radio" name="bProtein" value="l"> Low
+                    <h5>Carbs</h5>
+                    <input type="radio" name="bCarbs" value="n" checked="checked"> No Preference
+                    <input type="radio" name="bCarbs" value="h"> High
+                    <input type="radio" name="bCarbs" value="l"> Low
+                    <br><br>
+                    </div>
+
+                    <h3>Lunch</h3>
+                    <input type="radio" name="lunch" value="yes" checked="checked"> Yes
+                    <input type="radio" name="lunch" value="no"> No
+                    <br>
+                    <div id="lOptions" class="desc">
+                    <h4>Venue</h4>
+                    <input type="radio" name="lVenue" value="n" checked="checked"> No Preference
+                    <input type="radio" name="lVenue" value="ndh"> North Dining Hall
+                    <input type="radio" name="lVenue" value="sdh"> South Dining Hall
+                    <br>
+                    <h4>Nutrients</h4>
+                    <h5>Protein</h5>
+                    <input type="radio" name="lProtein" value="n" checked="checked"> No Preference
+                    <input type="radio" name="lProtein" value="h"> High
+                    <input type="radio" name="lProtein" value="l"> Low
+                    <h5>Carbs</h5>
+                    <input type="radio" name="lCarbs" value="n" checked="checked"> No Preference
+                    <input type="radio" name="lCarbs" value="h"> High
+                    <input type="radio" name="lCarbs" value="l"> Low
+                    <div id="ndhLunchEntrees" class="desc" style="display: none;">
+                        <h5>Entree</h5>
+                        <input type="radio" name="lEntree" value="n" checked="checked"> No Preference
+                        <input type="radio" name="lEntree" value="Salads"> Salads
+                        <input type="radio" name="lEntree" value="Soups"> Soups
+                        <input type="radio" name="lEntree" value="Pastaria"> Pastaria
+                        <input type="radio" name="lEntree" value="Pizzeria"> Pizzeria
+                        <input type="radio" name="lEntree" value="Grill"> Grill
+                        <input type="radio" name="lEntree" value="Asian"> Asian
+                        <input type="radio" name="lEntree" value="Homestyle"> Homestyle
+                    </div>
+                    <div id="sdhLunchEntrees" class="desc" style="display: none;">
+                        <h5>Entree</h5>
+                        <input type="radio" name="lEntree" value="n"> No Preference
+                        <input type="radio" name="lEntree" value="Salads"> Salads
+                        <input type="radio" name="lEntree" value="Soups"> Soups
+                        <input type="radio" name="lEntree" value="SDH Pastaria"> SDH Pastaria
+                        <input type="radio" name="lEntree" value="Pan-american"> Pan-american
+                        <input type="radio" name="lEntree" value="SDH Grill"> SDH Grill
+                        <input type="radio" name="lEntree" value="SDH Asian"> SDH Asian
+                        <input type="radio" name="lEntree" value="SDH Homestyle"> SDH Homestyle
+                        <input type="radio" name="lEntree" value="Homestyle Vegan"> Homestyle Vegan
+                    </div>
+                    <br><br>
+                    </div>
+
+                    <h3>Dinner</h3>
+                    <input type="radio" name="dinner" value="yes" checked="checked"> Yes
+                    <input type="radio" name="dinner" value="no"> No
+                    <br>
+                    <div id="dOptions" class="desc">
+                    <h4>Venue</h4>
+                    <input type="radio" name="dVenue" value="n" checked="checked"> No Preference
+                    <input type="radio" name="dVenue" value="ndh"> North Dining Hall
+                    <input type="radio" name="dVenue" value="sdh"> South Dining Hall
+                    <br>
+                    <h4>Nutrients</h4>
+                    <h5>Protein</h5>
+                    <input type="radio" name="dProtein" value="n" checked="checked"> No Preference
+                    <input type="radio" name="dProtein" value="h"> High
+                    <input type="radio" name="dProtein" value="l"> Low
+                    <h5>Carbs</h5>
+                    <input type="radio" name="dCarbs" value="n" checked="checked"> No Preference
+                    <input type="radio" name="dCarbs" value="h"> High
+                    <input type="radio" name="dCarbs" value="l"> Low
+                    <div id="ndhDinnerEntrees" class="desc" style="display: none;">
+                        <h5>Entree</h5>
+                        <input type="radio" name="dEntree" value="n" checked="checked"> No Preference
+                        <input type="radio" name="dEntree" value="Salads"> Salads
+                        <input type="radio" name="dEntree" value="Soups"> Soups
+                        <input type="radio" name="dEntree" value="Pastaria"> Pastaria
+                        <input type="radio" name="dEntree" value="Pizzeria"> Pizzeria
+                        <input type="radio" name="dEntree" value="Grill"> Grill
+                        <input type="radio" name="dEntree" value="Asian"> Asian
+                        <input type="radio" name="dEntree" value="Homestyle"> Homestyle
+                    </div>
+                    <div id="sdhDinnerEntrees" class="desc" style="display: none;">
+                        <h5>Entree</h5>
+                        <input type="radio" name="dEntree" value="n"> No Preference
+                        <input type="radio" name="dEntree" value="Salads"> Salads
+                        <input type="radio" name="dEntree" value="Soups"> Soups
+                        <input type="radio" name="dEntree" value="SDH Pastaria"> SDH Pastaria
+                        <input type="radio" name="dEntree" value="Pan-american"> Pan-american
+                        <input type="radio" name="dEntree" value="SDH Grill"> SDH Grill
+                        <input type="radio" name="dEntree" value="SDH Asian"> SDH Asian
+                        <input type="radio" name="dEntree" value="SDH Homestyle"> SDH Homestyle
+                        <input type="radio" name="dEntree" value="Homestyle Vegan"> Homestyle Vegan
+                    </div>
+                    <br /><br />
+                    </div>
+                    <br />
+                    <button class="btn btn-lg btn-success" name="submit" type="submit" value="Next">Next</button>
+                    
+                    
+                </form>
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/menuPlanner.js') }}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</body>
+
+</html>

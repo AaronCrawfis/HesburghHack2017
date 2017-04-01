@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Aaron Crawfis, Jack Casey">
 
-    <title>Food Alerts</title>
+    <title>My Menu</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
@@ -65,10 +65,10 @@
                     <li>
                         <a href="menuPlanner"><i class="fa fa-fw fa-calendar"></i> Menu Planner</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="myMenu"><i class="fa fa-fw fa-calendar"></i> My Menu</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="foodAlerts"><i class="fa fa-fw fa-bell"></i> Food Alerts</a>
                     </li>
                     <li>
@@ -87,95 +87,78 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Food Alerts
-                            <small>Setup alerts for your favorite foods</small>
+                            My Menu
+                            <small>View this week's menu</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="dashboard">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-file"></i> Food Alerts
+                                <i class="fa fa-file"></i> My Menu
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <!-- Food Search -->
+                <!-- Planner Button -->
+                <button type="button" onclick="location.href = '/menuPlanner';" class="btn btn-primary btn-lg">Menu Planner</button>
 
                 <!-- Table -->
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h2>My Alerts:</h2>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Location</th>
-                                        <th>Next Occurance</th>
-                                        <th>Test Alert</th>
-                                        <th>Delete Alert</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% if foodDone %}
-                                    <tr>
-                                        <td>Burrito Bar</td>
-                                        <td>NDH</td>
-                                        <td>Saturday, April 8th, 2017</td>
-                                        <th><a href="{{ url_for('textFood') }}">Test Alert</a></th>
-                                        <th><a href="{{ url_for('foodAlerts') }}">Delete</a></th>
-                                    </tr>
-                                    {% endif %}
-                                    <tr>
-                                        <td>Naan Bread</td>
-                                        <td>NDH</td>
-                                        <td>Thursday, April 6th, 2017</td>
-                                        <th><a href="">Test</th>
-                                        <th><a href="">Delete</a></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Quesadilla Pizza</td>
-                                        <td>SDH</td>
-                                        <td>Monday, April 3rd, 2017</td>
-                                        <th><a href="">Test</th>
-                                        <th><a href="">Delete</a></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Zucchini Strips</td>
-                                        <td>NDH</td>
-                                        <td>Tuesday, April 4th, 2017</td>
-                                        <th><a href="">Test</th>
-                                        <th><a href="">Delete</a></th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div class="container">
+                <h2>My Upcoming Menu</h2>           
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            {% for day in Menu %}
+                            <th>{{ day["Name"] }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mType in "Breakfast","Lunch","Dinner" %}
+                        <tr bgcolor="#0099ff" style="height:10px">
+                            <td><b><font size="+2">{{ mType }}</font></b></td>
+                            {% for day in Menu %}
+                            <td></td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td><b>Entree</b></td>
+                            {% for day in Menu %}
+                            <td>{{ day[mType]["Entree"] }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td><b>Side</b></td>
+                            {% for day in Menu %}
+                            <td>{{ day[mType]["Side"] }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td><b>Calories</b></td>
+                            {% for day in Menu %}
+                            <td>{{ day[mType]["Calories"] }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td><b>Protein</b></td>
+                            {% for day in Menu %}
+                            <td>{{ day[mType]["Protein"] }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td><b>Carbs</b></td>
+                            {% for day in Menu %}
+                            <td>{{ day[mType]["Carbs"] }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
                 </div>
-
-                
-
-                {% if showSearch %}
-                <form role="form" method="post">
-                    <h2>Search for a food:</h2>
-                    <br>
-                    <input name="foodName" id="foodName" placeholder="Name of Food" style="margin-bottom: 10px;"><br>
-                    <button class="btn btn-lg btn-success" name="submit" type="submit" value="Search">Search for a Food</button>
-                </form>
-                {% endif %}
-
-                {% if showFood %}
-                <form role="form" method="post">
-                    <h2>Select a food:</h2>
-                    <br>
-                    <input type="radio" name="food" value="Burrito Bar - NDH" checked> Burrito Bar - NDH<br>
-                    <input type="radio" name="food" value="Burritos - SDH"> Burritos - SDH<br><br>
-                    <button class="btn btn-lg btn-success" name="submit" type="submit" value="Select">Submit</button>
-                </form>
-                {% endif %}
 
 
             </div>
