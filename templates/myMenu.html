@@ -119,38 +119,38 @@
                     </thead>
                     <tbody>
                         {% for mType in "Breakfast","Lunch","Dinner" %}
-                        <tr bgcolor="#0099ff">
-                            <td>{{ mType }}</td>
+                        <tr bgcolor="#0099ff" style="height:10px">
+                            <td><b><font size="+2">{{ mType }}</font></b></td>
                             {% for day in Menu %}
                             <td></td>
                             {% endfor %}
                         </tr>
                         <tr>
-                            <td>"Entree"</td>
+                            <td><b>Entree</b></td>
                             {% for day in Menu %}
                             <td>{{ day[mType]["Entree"] }}</td>
                             {% endfor %}
                         </tr>
                         <tr>
-                            <td>"Side"</td>
+                            <td><b>Side</b></td>
                             {% for day in Menu %}
                             <td>{{ day[mType]["Side"] }}</td>
                             {% endfor %}
                         </tr>
                         <tr>
-                            <td>"Calories"</td>
+                            <td><b>Calories</b></td>
                             {% for day in Menu %}
                             <td>{{ day[mType]["Calories"] }}</td>
                             {% endfor %}
                         </tr>
                         <tr>
-                            <td>"Protein"</td>
+                            <td><b>Protein</b></td>
                             {% for day in Menu %}
                             <td>{{ day[mType]["Protein"] }}</td>
                             {% endfor %}
                         </tr>
                         <tr>
-                            <td>"Carbs"</td>
+                            <td><b>Carbs</b></td>
                             {% for day in Menu %}
                             <td>{{ day[mType]["Carbs"] }}</td>
                             {% endfor %}

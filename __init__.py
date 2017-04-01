@@ -77,7 +77,9 @@ def nameOfDayInXDays(x):
     return dt.strftime("%A")
 
 def writeFileFromForm(form):
-    pass
+    # Variables --------------
+    filePath = '/var/www/food/food/uploads/'
+    dayNum = form['dayNum']
 
 def buildMenu():
     pass
@@ -165,13 +167,23 @@ def menuPlanner():
             writeFileFromForm(request.form)
             return render_template('menuPlanner.html', dayName=nameOfDayInXDays(dayNum), dayNum=dayNum)
         else:
-            buildMenu()
             return redirect(url_for('myMenu'))
 
 # My Menu ---------------------------
 @app.route('/myMenu')
 def myMenu():
-    tempMenu = [{'Name:', 'Sunday', 'Dinner': {'Entree':'Burrito','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'10'},'Lunch': {'Entree':'Wrap','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'15'},'Breakfast': {'Entree':'Omelet','Side':'','Calories':'1000','Protein':'20','Carbs':'15'}},{'Name':'Monday', 'Dinner': {'Entree':'Burrito','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'10'},'Lunch': {'Entree':'Wrap','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'15'}, 'Breakfast': {'Entree':'Omelet','Side':'','Calories':'1000','Protein':'20','Carbs':'15'}}]
+    meal1 = {'Entree':'Burrito','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'10'}
+    meal2 = {'Entree':'Wrap','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'15'}
+    meal3 = {'Entree':'Omelet','Side':'','Calories':'1000','Protein':'20','Carbs':'15'}
+    day1 = {'Name':'Sunday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
+    day2 = {'Name':'Monday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
+    day3 = {'Name':'Tuesday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
+    day4 = {'Name':'Wednesday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
+    day5 = {'Name':'Thursday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
+    day6 = {'Name':'Friday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
+    day7 = {'Name':'Saturday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
+    tempMenu = [day1, day2, day3, day4, day5, day6, day7]
+    realMenu = buildMenu()
     return render_template('myMenu.html', Menu=tempMenu)
 
 # Main Execution ------------------------------------------
