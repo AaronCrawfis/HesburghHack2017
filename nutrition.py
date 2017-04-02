@@ -42,10 +42,10 @@ def getMeal(choices, course, venue, fat=0, carbs=0, protein=0):
     pick = True
 
     if venue == 'ndh':
-        if course=='Breakfast':
+        if course=='Breakfast' or course == 'Continental Breakfast':
             sides=ndh_b_side
             entrees=ndh_b_main
-        elif course=='Lunch':
+        elif course=='Lunch' or course == 'Brunch':
             sides=ndh_l_side
             entrees=ndh_l_main
         else:
@@ -59,10 +59,10 @@ def getMeal(choices, course, venue, fat=0, carbs=0, protein=0):
                 for j in range(len(choices[i]['MenuItems'])):
                     mainlist.append(choices[i]['MenuItems'][j])
     else:
-        if course=='Breakfast':
+        if course=='Breakfast' or course == 'Continental Breakfast':
             sides=sdh_b_side
             entrees=sdh_b_main
-        elif course=='Lunch':
+        elif course=='Lunch' or course == 'Brunch':
             sides=sdh_l_side
             entrees=sdh_l_main
         else:

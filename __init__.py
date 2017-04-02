@@ -103,7 +103,7 @@ def writeFileFromForm(form):
     sys.stdout.flush()
     mealoptions = nutrition.getOptions(eat, venue, course, dayNum)
     if mealoptions:
-        mealchoice = nutrition.getMeal(mealoptions, venue)
+        mealchoice = nutrition.getMeal(mealoptions, course, venue)
         nutrition.writetxtfile(mealchoice, course, dayNum)
     # Lunch ---------------------------------
     if form['lunch'] == 'yes':
@@ -116,7 +116,7 @@ def writeFileFromForm(form):
     mealoptions = nutrition.getOptions(eat, venue, course, dayNum)
     print mealoptions
     if mealoptions:
-        mealchoice = nutrition.getMeal(mealoptions, venue)
+        mealchoice = nutrition.getMeal(mealoptions, course, venue)
         nutrition.writetxtfile(mealchoice, course, dayNum)
     # Dinner ---------------------------------
     if form['dinner'] == 'yes':
@@ -128,7 +128,7 @@ def writeFileFromForm(form):
     # Run Functions
     mealoptions = nutrition.getOptions(eat, venue, course, dayNum)
     if mealoptions:
-        mealchoice = nutrition.getMeal(mealoptions, venue)
+        mealchoice = nutrition.getMeal(mealoptions, course, venue)
         nutrition.writetxtfile(mealchoice, course, dayNum)
 
 def getMacros():
