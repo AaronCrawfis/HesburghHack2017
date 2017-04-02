@@ -134,6 +134,21 @@ def writeFileFromForm(form):
 def buildMenu():
     pass
 
+def getMacros():
+    macros = dict()
+    for i in range(7):
+        filename = '/var/www/food/food/uploads/' + str(i) + '.txt'
+        dayMacros = dict()
+        if os.path.isfile(filename):
+            with open(filename) as file:
+                lines = file.readlines()
+            for line in lines:
+                if ':' in line:
+                    info = line.split(':')
+                    dayMacros[info[0]] = info[1].lstrip().rstrip()
+            macros[i] = dayMacros 
+    return macros
+
 # Path Handlers -------------------------------------------
 
 # Index ------------------------
@@ -222,18 +237,13 @@ def menuPlanner():
 # My Menu ---------------------------
 @app.route('/myMenu')
 def myMenu():
-    meal1 = {'Entree':'Burrito','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'10'}
-    meal2 = {'Entree':'Wrap','Side':'Salad','Calories':'1000','Protein':'20','Carbs':'15'}
-    meal3 = {'Entree':'Omelet','Side':'','Calories':'1000','Protein':'20','Carbs':'15'}
-    day1 = {'Name':'Sunday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
-    day2 = {'Name':'Monday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
-    day3 = {'Name':'Tuesday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
-    day4 = {'Name':'Wednesday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
-    day5 = {'Name':'Thursday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
-    day6 = {'Name':'Friday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
-    day7 = {'Name':'Saturday', 'Breakfast':meal3, 'Lunch':meal2, 'Dinner':meal1}
-    tempMenu = [day1, day2, day3, day4, day5, day6, day7]
     realMenu = buildMenu()
     return render_template('myMenu.html', Menu=tempMenu)
+
+# Macro Tracker ----------------------
+@app.route('/macroTracker')
+def macroTracker():
+    macros = getMacros()
+    return render_template('macroTracker.html', macros=macros)
 
 # Main Execution ------------------------------------------
