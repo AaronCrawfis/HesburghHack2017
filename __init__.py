@@ -84,6 +84,10 @@ def writeFileFromForm(form):
 
     # All
     dayNum = form['dayNum']
+
+    # Prep
+    os.remove(filePath + str(dayNum) + ".txt")
+
     # Breakfast ----------------------------
     if form['breakfast'] == 'yes':
         eat = True
@@ -116,7 +120,7 @@ def writeFileFromForm(form):
     # Run Functions
     mealoptions = getOptions(eat, venue, course, dayNum)
     mealchoice = getMeal(mealoptions)
-    nutrition.writetxtfile(dayNum, mealchoice)
+    nutrition.writetxtfile(mealchoice, dayNum)
 
 def buildMenu():
     pass
