@@ -168,7 +168,11 @@ def writetxtfile(mealchoice, course, uday=0):
     today+=datetime.timedelta(days=uday)
     file = open(filename,'a')
     file.write(str(today)+'\n')
+<<<<<<< HEAD
     file.write(course+'\n')
+=======
+    file.write(course + '\n')
+>>>>>>> 42723f07d0285a7ebc6d27b695bb99c4628f0bf9
     file.write('Entree\n')
     file.write(mealchoice[0]+'\n')
     file.write('Side\n')
