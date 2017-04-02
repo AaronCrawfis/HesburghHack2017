@@ -155,12 +155,13 @@ def NutritionLookup(url):
         
     return nutdict
 
-def writetxtfile(mealchoice, uday=0):
+def writetxtfile(mealchoice, course, uday=0):
     filename = '/var/www/food/food/uploads/' + str(uday) + '.txt'
     today=datetime.date.today()
     today+=datetime.timedelta(days=uday)
     file = open(filename,'a')
     file.write(str(today)+'\n')
+    file.write(course + '\n')
     file.write('Entree\n')
     file.write(mealchoice[0]+'\n')
     file.write('Side\n')

@@ -104,7 +104,7 @@ def writeFileFromForm(form):
     mealoptions = nutrition.getOptions(eat, venue, course, dayNum)
     if mealoptions:
         mealchoice = nutrition.getMeal(mealoptions, venue)
-        nutrition.writetxtfile(mealchoice, dayNum)
+        nutrition.writetxtfile(mealchoice, course, dayNum)
     # Lunch ---------------------------------
     if form['lunch'] == 'yes':
         eat = True
@@ -117,7 +117,7 @@ def writeFileFromForm(form):
     print mealoptions
     if mealoptions:
         mealchoice = nutrition.getMeal(mealoptions, venue)
-        nutrition.writetxtfile(mealchoice, dayNum)
+        nutrition.writetxtfile(mealchoice, course, dayNum)
     # Dinner ---------------------------------
     if form['dinner'] == 'yes':
         eat = True
@@ -129,7 +129,7 @@ def writeFileFromForm(form):
     mealoptions = nutrition.getOptions(eat, venue, course, dayNum)
     if mealoptions:
         mealchoice = nutrition.getMeal(mealoptions, venue)
-        nutrition.writetxtfile(mealchoice, dayNum)
+        nutrition.writetxtfile(mealchoice, course, dayNum)
 
 def buildMenu():
     pass
