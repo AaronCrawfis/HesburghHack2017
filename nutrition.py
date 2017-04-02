@@ -35,71 +35,91 @@ def getOptions(eat, venue, course, uday=0):
             if testdate.day == target.day and nutr[i]['Meal'] == course:
                 return nutr[i]['Courses']
     
-def getMeal(choices, course, venue, fat=0, carbs=0, protein=0):
+def getMeal(choices, course, venue):
     
     sideslist=[]
     mainlist=[]
-    pick = True
 
     if venue == 'ndh':
         if course=='Breakfast' or course == 'Continental Breakfast':
             sides=ndh_b_side
             entrees=ndh_b_main
+            notsides=notsides_b
+            notmains=notmains_b
         elif course=='Lunch' or course == 'Brunch':
             sides=ndh_l_side
             entrees=ndh_l_main
+            notsides=notsides_l
+            notmains=notmains_l
         else:
             sides=ndh_d_side
             entrees=ndh_d_main
+            notsides=notsides_d
+            notmains=notmains_d
         for i in range(len(choices)):
             if choices[i]['Name'] in sides:
                 for j in range(len(choices[i]['MenuItems'])):
-                    sideslist.append(choices[i]['MenuItems'][j])
+                    if choices[i]['MenuItems'][j]['Name'] in notsides:
+                        continue
+                    else:
+                        sideslist.append(choices[i]['MenuItems'][j])
             elif choices[i]['Name'] in entrees:
                 for j in range(len(choices[i]['MenuItems'])):
-                    mainlist.append(choices[i]['MenuItems'][j])
+                    if choices[i]['MenuItems'][j]['Name'] in notmains:
+                        continue
+                    else:
+                        mainlist.append(choices[i]['MenuItems'][j])
     else:
         if course=='Breakfast' or course == 'Continental Breakfast':
             sides=sdh_b_side
             entrees=sdh_b_main
+            notsides=notsides_b
+            notmains=notmains_b
         elif course=='Lunch' or course == 'Brunch':
             sides=sdh_l_side
             entrees=sdh_l_main
+            notsides=notsides_l
+            notmains=notmains_l
         else:
             sides=sdh_d_side
             entrees=sdh_d_main
+            notsides=notsides_d
+            notmains=notmains_d
         for i in range(len(choices)):
             if choices[i]['Name'] in sides:
                 for j in range(len(choices[i]['MenuItems'])):
-                    sideslist.append(choices[i]['MenuItems'][j])
+                    if choices[i]['MenuItems'][j]['Name'] in notsides:
+                        continue
+                    else:
+                        sideslist.append(choices[i]['MenuItems'][j])
             elif choices[i]['Name'] in entrees:
                 for j in range(len(choices[i]['MenuItems'])):
-                    mainlist.append(choices[i]['MenuItems'][j])
+                    if choices[i]['MenuItems'][j]['Name'] in notmains:
+                        continue
+                    else:
+                        mainlist.append(choices[i]['MenuItems'][j])
     
-    while pick:
+    sidechoice=random.choice(sideslist)
+    sidename=sidechoice['Name']
+    sidenutr=NutritionLookup(sidechoice['NutritionURL'])
+    mainchoice=random.choice(mainlist)
+    mainname=mainchoice['Name']
+    mainnutr=NutritionLookup(mainchoice['NutritionURL'])
+    while type(sidenutr) != dict:
+        #sideslist.remove(sidename)
         sidechoice=random.choice(sideslist)
         sidename=sidechoice['Name']
         sidenutr=NutritionLookup(sidechoice['NutritionURL'])
+    while type(mainnutr) != dict:
+        #mainlist.remove(mainname)
         mainchoice=random.choice(mainlist)
         mainname=mainchoice['Name']
         mainnutr=NutritionLookup(mainchoice['NutritionURL'])
-        while type(sidenutr) != dict:
-            #sideslist.remove(sidename)
-            sidechoice=random.choice(sideslist)
-            sidename=sidechoice['Name']
-            sidenutr=NutritionLookup(sidechoice['NutritionURL'])
-        while type(mainnutr) != dict:
-            #mainlist.remove(mainname)
-            mainchoice=random.choice(mainlist)
-            mainname=mainchoice['Name']
-            mainnutr=NutritionLookup(mainchoice['NutritionURL'])
 
-        totalfat = float(sidenutr['Total Fat']) + float(mainnutr['Total Fat'])
-        totalcarbs = float(sidenutr['Carbohydrates']) + float(mainnutr['Carbohydrates'])
-        totalprotein = float(sidenutr['Protein']) + float(mainnutr['Protein'])
-        totalcals = float(sidenutr['Calories']) + float(mainnutr['Calories'])
-        if totalprotein > protein:
-            pick = False
+    totalfat = float(sidenutr['Total Fat']) + float(mainnutr['Total Fat'])
+    totalcarbs = float(sidenutr['Carbohydrates']) + float(mainnutr['Carbohydrates'])
+    totalprotein = float(sidenutr['Protein']) + float(mainnutr['Protein'])
+    totalcals = float(sidenutr['Calories']) + float(mainnutr['Calories'])
     
     foodlist = [mainname, sidename, round(totalcals), 
                 round(totalfat), round(totalcarbs), round(totalprotein)]
@@ -206,9 +226,27 @@ sdh_d_main=['SDH Pastaria', 'SDH Pizza', 'Pan-american', 'SDH Grill', 'SDH Asian
 ndh_d_side=['Salads', 'Soups', 'Whole Fruits', 'Homestyle']
 sdh_d_side=['Salads', 'Soups', 'Vegetables', 'SDH Homestyle']
 
+notmains_d=['Stealth French Fries', 'Thin Spaghetti', 
+          'Garlic Parmesan Breadsticks', 'Tomato & Basil Marinara Sauce',
+          'Buttermilk Ranch Dressing', 'Chunky Bleu Cheese Dressing',
+          'Carrot Stick', 'Celery Sticks',]
+notsides_d=['Pesto Salmon', 'Honey Ginger Pork Loin', 'Pork Gravy']
+notmains_l=['Hard Cooked Eggs', 'Turkey Meat Sauce',
+            'Bob Evans Sausage Gravy', 'Stealth French Fries',
+            'Garlic Parmesan Breadsticks', "Potatoes O'Brien",
+            'Classic Waffle & Pancake Syrup','Smoothie Station',
+            'Tomato & Basil Marinara Sauce', 'Biscuits',
+            "Hilda's Mexican Rice", 'Fried Onion Rings', 
+            'Fried Seasoned Potato Cubes', 'Marinara Sauce']
+notsides_l=['Peppered Pan Gravy', 'Brown Sauce','Gourmet Cinnamon Rolls',
+            'Chicken Fried Steak', 'Crepe Bar', 'Pork Rub', 
+            'Shrimp Spaghetti']
+notmains_b=[]
+notsides_b=[]
+
 eat = True
-course = 'Dinner'
-venue = 'ndh'
+course = 'Lunch'
+venue = 'sdh'
 protein = 20
 carbs = 40
 fat = 25
@@ -263,11 +301,8 @@ def structfromFile():
             biglist.append(bigstruct)
             
     return biglist
-                            
-            
-                    
 
 if __name__ == "__main__":
-    mealoptions = getOptions(eat, course, venue)
-    mealchoice=getMeal(mealoptions, venue)
-    writetxtfile(mealchoice)
+    mealoptions = getOptions(eat, venue, course)
+    mealchoice=getMeal(mealoptions, course, venue)
+#    writetxtfile(mealchoice, course)
