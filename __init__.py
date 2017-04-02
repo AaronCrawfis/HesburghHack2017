@@ -16,6 +16,8 @@ from twilio.rest import TwilioRestClient
 
 import datetime
 
+import nutrition
+
 # Variables -----------------------------------------------
 
 # App
@@ -79,7 +81,42 @@ def nameOfDayInXDays(x):
 def writeFileFromForm(form):
     # Variables --------------
     filePath = '/var/www/food/food/uploads/'
+
+    # All
     dayNum = form['dayNum']
+    # Breakfast ----------------------------
+    if form['breakfast'] == 'yes':
+        eat = True
+    else:
+        eat = False
+    venue = form['bVenue']
+    course = 'Breakfast'
+    # Run Functions
+    mealoptions = getOptions(eat, venue, course, dayNum)
+    mealchoice = getMeal(mealoptions)
+    nutrition.writetxtfile(0, mealchoice)
+    # Lunch ---------------------------------
+    if form['lunch'] == 'yes':
+        eat = True
+    else:
+        eat = False
+    venue = form['lVenue']
+    course = 'Lunch'
+    # Run Functions
+    mealoptions = getOptions(eat, venue, course, dayNum)
+    mealchoice = getMeal(mealoptions)
+    nutrition.writetxtfile(dayNum, mealchoice)
+    # Dinner ---------------------------------
+    if form['dinner'] == 'yes':
+        eat = True
+    else:
+        eat = False
+    venue = form['dVenue']
+    course = 'Dinner'
+    # Run Functions
+    mealoptions = getOptions(eat, venue, course, dayNum)
+    mealchoice = getMeal(mealoptions)
+    nutrition.writetxtfile(dayNum, mealchoice)
 
 def buildMenu():
     pass
