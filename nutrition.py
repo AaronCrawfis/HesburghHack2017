@@ -164,7 +164,7 @@ def NutritionLookup(url):
         
     return nutdict
 
-def writetxtfile(uday=0):
+def writetxtfile(uday=0, mealchoice):
     today=datetime.date.today()
     today+=datetime.timedelta(days=uday)
     file = open('0.txt','w')
@@ -195,7 +195,8 @@ protein = 20
 carbs = 100
 fat = 25
 
-mealoptions = getOptions(eat, venue)
-mealchoice=getMeal(mealoptions, fat)
-#entreeselect=getEntree(mealoptions)    
-writetxtfile()
+if __name__ == "__main__":
+    mealoptions = getOptions(eat, venue)
+    mealchoice=getMeal(mealoptions, fat)
+    entreeselect=getEntree(mealoptions)    
+    writetxtfile(0, mealchoice)
