@@ -66,7 +66,7 @@
                         <a href="menuPlanner"><i class="fa fa-fw fa-calendar"></i> Menu Planner</a>
                     </li>
                     <li class="active">
-                        <a href="myMenu"><i class="fa fa-fw fa-calendar"></i> My Menu</a>
+                        <a href="myMenu"><i class="fa fa-fw fa-coffee"></i> My Menu</a>
                     </li>
                     <li>
                         <a href="foodAlerts"><i class="fa fa-fw fa-bell"></i> Food Alerts</a>
@@ -110,7 +110,7 @@
                 <!-- Table -->
                 <div class="container">
                 <h2>My Upcoming Menu</h2>           
-                <table class="table table-bordered">
+                <table class="table table-condensed">
                     <thead>
                         <tr>
                             <th></th>
@@ -121,8 +121,8 @@
                     </thead>
                     <tbody>
                         {% for mType in "Breakfast","Lunch","Dinner" %}
-                        <tr bgcolor="#0099ff" style="height:10px">
-                            <td><b><font size="+2">{{ mType }}</font></b></td>
+                        <tr class="info">
+                            <td><b><font size="+1">{{ mType }}</font></b></td>
                             {% for day in Menu %}
                             <td></td>
                             {% endfor %}

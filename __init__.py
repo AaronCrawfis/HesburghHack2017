@@ -167,7 +167,7 @@ def login():
         netID = request.form['login_id']
         password = request.form['pw']
         #p0 = searchForNetID(netID)
-        if True:
+        if netID == 'acrawfis':
             user = User()
             user.id = netID
             flask_login.login_user(user)
