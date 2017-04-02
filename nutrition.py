@@ -30,31 +30,6 @@ def getOptions(eat, venue, course='Dinner', uday=0):
             testdate=datetime.datetime.strptime(testdate, '%Y-%m-%d')
             if testdate.day == target.day and nutr[i]['Meal'] == course:
                 return nutr[i]['Courses']
-
-#def listMeals(choices):
-#    
-##    meallist={}
-##    sideslist={}
-##    
-##    for i in range(len(choices)):
-##        if choices[i]['Name'] in exemptfoods:
-##            continue
-##        elif choices[i]['Name'] in sides:
-##            for j in range(len(choices[i]['MenuItems'])):
-##                food=choices[i]['MenuItems'][j]
-##                foodname=food['Name']
-##                foodnutr=food['NutritionURL']
-##                sideslist[foodname]=NutritionLookup(foodnutr)
-##        else:
-##            for j in range(len(choices[i]['MenuItems'])):
-##                food=choices[i]['MenuItems'][j]
-##                foodname=food['Name']
-##                foodnutr=food['NutritionURL']
-##                meallist[foodname]=NutritionLookup(foodnutr)  
-#    
-#    return [sideslist, meallist]
-
-#test = listMeals(mealoptions)
     
 def getMeal(choices, fat=0, carbs=0, protein=0):
     
@@ -77,22 +52,22 @@ def getMeal(choices, fat=0, carbs=0, protein=0):
         mainchoice=random.choice(mainlist)
         mainname=mainchoice['Name']
         mainnutr=NutritionLookup(mainchoice['NutritionURL'])
-        if mainnutr == {}:
+        while type(sidenutr) != dict:
+            sideslist.remove(sidename)
+            sidechoice=random.choice(sideslist)
+            sidename=sidechoice['Name']
+            sidenutr=NutritionLookup(sidechoice['NutritionURL'])
+        while type(mainnutr) != dict:
             mainlist.remove(mainname)
             mainchoice=random.choice(mainlist)
             mainname=mainchoice['Name']
             mainnutr=NutritionLookup(mainchoice['NutritionURL'])
 
-            
-        print(sidenutr)
-        print('\n')
-        print(mainnutr)
-        print('\n')
         totalfat = float(sidenutr['Total Fat']) + float(mainnutr['Total Fat'])
         totalcarbs = float(sidenutr['Carbohydrates']) + float(mainnutr['Carbohydrates'])
         totalprotein = float(sidenutr['Protein']) + float(mainnutr['Protein'])
         totalcals = float(sidenutr['Calories']) + float(mainnutr['Calories'])
-        if totalprotein < protein:
+        if totalprotein > protein:
             pick = False
     
     foodlist = [mainname, sidename, round(totalcals), 
@@ -107,6 +82,7 @@ def NutritionLookup(url):
     data=str(response.content)
     nutdict={}
     if 'Calories' not in data:
+        nutdict=0
         return nutdict
     else:
         cutdata=re.sub('<[^>]+>', '', data)
@@ -126,11 +102,9 @@ def NutritionLookup(url):
         cut9=cutdata8.split(' Calories:', 1)
         nutdict['Serving Size']=cut9[0]
         cut9=cut9[1]
-        
         cut9=cut9.split('Calories from Fat:', 1)
         nutdict['Calories']=cut9[0]
         cut9=cut9[1]
-        
         cut9=cut9.split(', Daily ValueTotal Fat:', 1)
         nutdict['Calories from Fat']=cut9[0]
         cut9=cut9[1]
@@ -147,15 +121,12 @@ def NutritionLookup(url):
         cut9=cut9.split(',Vitamin C:', 1)
         nutdict['Vitamin A']=cut9[0]
         cut9=cut9[1]
-        
         cut9=cut9.split(',Calcium:', 1)
         nutdict['Vitamin C']=cut9[0]
         cut9=cut9[1]
-        
         cut9=cut9.split(',Iron:', 1)
         nutdict['Calcium']=cut9[0]
         cut9=cut9[1]
-        
         cut9=cut9.split(',Ingredients:', 1)
         nutdict['Iron']=cut9[0]
         cut9=cut9[1]
@@ -171,7 +142,7 @@ def NutritionLookup(url):
         
     return nutdict
 
-def writetxtfile(uday=0, mealchoice):
+def writetxtfile(mealchoice, uday=0):
     today=datetime.date.today()
     today+=datetime.timedelta(days=uday)
     file = open('0.txt','w')
@@ -184,10 +155,6 @@ def writetxtfile(uday=0, mealchoice):
     file.write('Fat: '+str(mealchoice[3])+'\n')
     file.write('Carbohydrates: '+str(mealchoice[4])+'\n')
     file.write('Protein: '+str(mealchoice[5])+'\n')
-#    file.write('Calories: '+sideselect[1]['Calories']+'\n')
-#    file.write('Fat: '+sideselect[1]['Total Fat']+'\n')
-#    file.write('Carbohydrates: '+sideselect[1]['Carbohydrates']+'\n')
-#    file.write('Protein: '+sideselect[1]['Protein']+'\n')
     file.close()
 
         
@@ -199,11 +166,10 @@ sides=['Salads', 'Soups', 'Whole Fruits', 'Homestyle']
 eat = True
 venue = 'N'
 protein = 20
-carbs = 100
+carbs = 40
 fat = 25
 
 if __name__ == "__main__":
     mealoptions = getOptions(eat, venue)
-    mealchoice=getMeal(mealoptions, fat)
-    entreeselect=getEntree(mealoptions)    
-    writetxtfile(0, mealchoice)
+    mealchoice=getMeal(mealoptions)
+    writetxtfile(mealchoice)
