@@ -77,7 +77,7 @@ def getMeal(choices, fat=0, carbs=0, protein=0):
         mainchoice=random.choice(mainlist)
         mainname=mainchoice['Name']
         mainnutr=NutritionLookup(mainchoice['NutritionURL'])
-        if mainnutr == {}:
+        while mainnutr == {}
             mainlist.remove(mainname)
             mainchoice=random.choice(mainlist)
             mainname=mainchoice['Name']
