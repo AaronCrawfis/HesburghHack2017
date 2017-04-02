@@ -263,9 +263,6 @@ def structfromFile():
             biglist.append(bigstruct)
             
     return biglist
-                            
-            
-                    
 
 if __name__ == "__main__":
     mealoptions = getOptions(eat, course, venue)
