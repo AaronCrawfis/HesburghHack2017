@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Aaron Crawfis, Jack Casey">
 
-    <title>My Menu</title>
+    <title>Macro Tracker</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
@@ -65,13 +65,13 @@
                     <li>
                         <a href="menuPlanner"><i class="fa fa-fw fa-calendar"></i> Menu Planner</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="myMenu"><i class="fa fa-fw fa-calendar"></i> My Menu</a>
                     </li>
                     <li>
                         <a href="foodAlerts"><i class="fa fa-fw fa-bell"></i> Food Alerts</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="macroTracker"><i class="fa fa-fw fa-cutlery"></i> Macro Tracker</a>
                     </li>
                 </ul>
@@ -87,78 +87,22 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            My Menu
-                            <small>View this week's menu</small>
+                            Macro Tracker
+                            <small>View this week's nutrients</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="dashboard">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-file"></i> My Menu
+                                <i class="fa fa-file"></i> Macro Tracker
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <!-- Planner Button -->
-                <button type="button" onclick="location.href = '/menuPlanner';" class="btn btn-primary btn-lg">Menu Planner</button>
-
-                <!-- Table -->
-                <div class="container">
-                <h2>My Upcoming Menu</h2>           
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            {% for day in Menu %}
-                            <th>{{ day["Name"] }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for mType in "Breakfast","Lunch","Dinner" %}
-                        <tr bgcolor="#0099ff" style="height:10px">
-                            <td><b><font size="+2">{{ mType }}</font></b></td>
-                            {% for day in Menu %}
-                            <td></td>
-                            {% endfor %}
-                        </tr>
-                        <tr>
-                            <td><b>Entree</b></td>
-                            {% for day in Menu %}
-                            <td>{{ day[mType]["Entree"] }}</td>
-                            {% endfor %}
-                        </tr>
-                        <tr>
-                            <td><b>Side</b></td>
-                            {% for day in Menu %}
-                            <td>{{ day[mType]["Side"] }}</td>
-                            {% endfor %}
-                        </tr>
-                        <tr>
-                            <td><b>Calories</b></td>
-                            {% for day in Menu %}
-                            <td>{{ day[mType]["Calories"] }}</td>
-                            {% endfor %}
-                        </tr>
-                        <tr>
-                            <td><b>Protein</b></td>
-                            {% for day in Menu %}
-                            <td>{{ day[mType]["Protein"] }}</td>
-                            {% endfor %}
-                        </tr>
-                        <tr>
-                            <td><b>Carbs</b></td>
-                            {% for day in Menu %}
-                            <td>{{ day[mType]["Carbs"] }}</td>
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                </div>
+                
 
 
             </div>
