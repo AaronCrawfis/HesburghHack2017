@@ -10,7 +10,7 @@ import requests
 import re
 import os.path
 
-def getOptions(eat, venue, course, uday=0):
+def getOptions(eat, venue, course, uday=1):
     
     if not eat:
         return
@@ -49,13 +49,13 @@ def getMeal(choices, course, venue):
         elif course=='Lunch' or course == 'Brunch':
             sides=ndh_l_side
             entrees=ndh_l_main
-            notsides=notsides_l
-            notmains=notmains_l
+            notsides=notsides_dl
+            notmains=notmains_dl
         else:
             sides=ndh_d_side
             entrees=ndh_d_main
-            notsides=notsides_d
-            notmains=notmains_d
+            notsides=notsides_dl
+            notmains=notmains_dl
         for i in range(len(choices)):
             if choices[i]['Name'] in sides:
                 for j in range(len(choices[i]['MenuItems'])):
@@ -78,13 +78,13 @@ def getMeal(choices, course, venue):
         elif course=='Lunch' or course == 'Brunch':
             sides=sdh_l_side
             entrees=sdh_l_main
-            notsides=notsides_l
-            notmains=notmains_l
+            notsides=notsides_dl
+            notmains=notmains_dl
         else:
             sides=sdh_d_side
             entrees=sdh_d_main
-            notsides=notsides_d
-            notmains=notmains_d
+            notsides=notsides_dl
+            notmains=notmains_dl
         for i in range(len(choices)):
             if choices[i]['Name'] in sides:
                 for j in range(len(choices[i]['MenuItems'])):
@@ -226,21 +226,28 @@ sdh_d_main=['SDH Pastaria', 'SDH Pizza', 'Pan-american', 'SDH Grill', 'SDH Asian
 ndh_d_side=['Salads', 'Soups', 'Whole Fruits', 'Homestyle']
 sdh_d_side=['Salads', 'Soups', 'Vegetables', 'SDH Homestyle']
 
-notmains_d=['Stealth French Fries', 'Thin Spaghetti', 
+notmains_dl=['Stealth French Fries', 'Thin Spaghetti', 
           'Garlic Parmesan Breadsticks', 'Tomato & Basil Marinara Sauce',
           'Buttermilk Ranch Dressing', 'Chunky Bleu Cheese Dressing',
-          'Carrot Stick', 'Celery Sticks',]
-notsides_d=['Pesto Salmon', 'Honey Ginger Pork Loin', 'Pork Gravy']
-notmains_l=['Hard Cooked Eggs', 'Turkey Meat Sauce',
-            'Bob Evans Sausage Gravy', 'Stealth French Fries',
-            'Garlic Parmesan Breadsticks', "Potatoes O'Brien",
-            'Classic Waffle & Pancake Syrup','Smoothie Station',
-            'Tomato & Basil Marinara Sauce', 'Biscuits',
-            "Hilda's Mexican Rice", 'Fried Onion Rings', 
-            'Fried Seasoned Potato Cubes', 'Marinara Sauce']
-notsides_l=['Peppered Pan Gravy', 'Brown Sauce','Gourmet Cinnamon Rolls',
+          'Carrot Stick', 'Celery Sticks', 'Turkey Meat Sauce',
+          'Marinara Sauce', 'Steamed Chinese Rice', 'Chipotle Alfredo Sauce',
+          'Glazed Apple Streusel Pizza', 'Steak Fries', 'White Dinner Rolls',
+          'Fried Onion Rings', 'Gorgonzola Sauce', 'Toasted ND Pretzel Sticks',
+          'Hard Cooked Eggs', 'Turkey Meat Sauce',
+          'Bob Evans Sausage Gravy', 'Stealth French Fries',
+          'Garlic Parmesan Breadsticks', "Potatoes O'Brien",
+          'Classic Waffle & Pancake Syrup','Smoothie Station',
+          'Tomato & Basil Marinara Sauce', 'Biscuits', 'Alfredo Sauce',
+          "Hilda's Mexican Rice", 'Fried Onion Rings', 'Small Shells',
+          'Fried Seasoned Potato Cubes', 'Marinara Sauce',
+          'Basil Pesto Sauce w/o Nuts', 'White Dinner Rolls',
+          'Steamed Chinese Rice', 'Med Rare Deli Roast Beef',
+          'Roll Kaiser Corn 4.5-inch', 'White Sub Roll']
+notsides_dl=['Pesto Salmon', 'Honey Ginger Pork Loin', 'Pork Gravy',
+            'Chicken Gravy', 'Jerk Chicken', 'Biscuits', 'Peppered Pan Gravy',
+            'Brown Sauce','Gourmet Cinnamon Rolls',
             'Chicken Fried Steak', 'Crepe Bar', 'Pork Rub', 
-            'Shrimp Spaghetti']
+            'Shrimp Spaghetti', 'Condiment Bar', 'Horseradish Sauce']
 notmains_b=[]
 notsides_b=[]
 
