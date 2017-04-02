@@ -35,13 +35,22 @@ def getOptions(eat, venue, course, uday=0):
             if testdate.day == target.day and nutr[i]['Meal'] == course:
                 return nutr[i]['Courses']
     
-def getMeal(choices, venue, fat=0, carbs=0, protein=0):
+def getMeal(choices, course, venue, fat=0, carbs=0, protein=0):
     
     sideslist=[]
     mainlist=[]
     pick = True
 
     if venue == 'ndh':
+        if course=='Breakfast':
+            sides=ndh_b_side
+            entrees=ndh_b_main
+        elif course=='Lunch':
+            sides=ndh_l_side
+            entrees=ndh_l_main
+        else:
+            sides=ndh_d_side
+            entrees=ndh_d_main
         for i in range(len(choices)):
             if choices[i]['Name'] in sides:
                 for j in range(len(choices[i]['MenuItems'])):
@@ -50,11 +59,20 @@ def getMeal(choices, venue, fat=0, carbs=0, protein=0):
                 for j in range(len(choices[i]['MenuItems'])):
                     mainlist.append(choices[i]['MenuItems'][j])
     else:
+        if course=='Breakfast':
+            sides=sdh_b_side
+            entrees=sdh_b_main
+        elif course=='Lunch':
+            sides=sdh_l_side
+            entrees=sdh_l_main
+        else:
+            sides=sdh_d_side
+            entrees=sdh_d_main
         for i in range(len(choices)):
             if choices[i]['Name'] in sides:
                 for j in range(len(choices[i]['MenuItems'])):
                     sideslist.append(choices[i]['MenuItems'][j])
-            elif choices[i]['Name'] in sdhentrees:
+            elif choices[i]['Name'] in entrees:
                 for j in range(len(choices[i]['MenuItems'])):
                     mainlist.append(choices[i]['MenuItems'][j])
     
@@ -175,9 +193,19 @@ def writetxtfile(mealchoice, course, uday=0):
         
 sdh = 'https://www3.nd.edu/~webdev/utilities/xml2json/dining.php?feed=http%3A%2F%2Fauxopsweb2.oit.nd.edu%2FDiningMenus%2Fapi%2FMenus%2F47'
 ndh = 'https://www3.nd.edu/~webdev/utilities/xml2json/dining.php?feed=http%3A%2F%2Fauxopsweb2.oit.nd.edu%2FDiningMenus%2Fapi%2FMenus%2F46'
-entrees = ['Pastaria', 'Pizzeria', 'Grill', 'Mexican']
-sdhentrees = ['SDH Pastaria', 'SDH Pizza', 'Pan-american', 'SDH Grill', 'SDH Asian', ]
-sides=['Salads', 'Soups', 'Whole Fruits', 'Homestyle']
+sdh_b_main=['Entrees', 'SDH Grill']
+ndh_b_main=['Entrees']
+sdh_b_side=['Breads & Pastries', 'Salads', 'Starches']
+ndh_b_side=['Breads & Pastries', 'Salads', 'Fruit', 'Whole Fruit']
+ndh_l_main=['Entrees', 'Pastaria', 'Pizzeria', 'Grill', 'Mexican', 'Asian']
+sdh_l_main=['SDH Pastaria', 'SDH Pizza', 'Pan-american', 'SDH Grill', 'SDH Asian', 'Entrees']
+ndh_l_side=['Salads', 'Soups', 'Whole Fruits', 'Homestyle']
+sdh_l_side=['Salads', 'Soups', 'Vegetables', 'SDH Homestyle']
+ndh_d_main=['Entrees', 'Pastaria', 'Pizzeria', 'Grill', 'Mexican', 'Asian']
+sdh_d_main=['SDH Pastaria', 'SDH Pizza', 'Pan-american', 'SDH Grill', 'SDH Asian', 'Entrees']
+ndh_d_side=['Salads', 'Soups', 'Whole Fruits', 'Homestyle']
+sdh_d_side=['Salads', 'Soups', 'Vegetables', 'SDH Homestyle']
+
 eat = True
 course = 'Dinner'
 venue = 'ndh'
