@@ -1,13 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Mar 31 18:24:11 2017
-
-@author: Jack Casey
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Mar 31 18:24:11 2017
 @author: Jack Casey
 """
 
@@ -168,11 +161,7 @@ def writetxtfile(mealchoice, course, uday=0):
     today+=datetime.timedelta(days=uday)
     file = open(filename,'a')
     file.write(str(today)+'\n')
-<<<<<<< HEAD
     file.write(course+'\n')
-=======
-    file.write(course + '\n')
->>>>>>> 42723f07d0285a7ebc6d27b695bb99c4628f0bf9
     file.write('Entree\n')
     file.write(mealchoice[0]+'\n')
     file.write('Side\n')
@@ -198,37 +187,51 @@ fat = 25
 
 def structfromFile():
     
-    foodstruct1, foodstruct2, foodstruct3 = {},{},{}
-    bigstruct={}
     biglist=[]
-    for i in range(6):
-        if os.path.isfile(i+'.txt'):
-            f=open(i+'.txt')
+    for i in range(7):
+        foodstruct1, foodstruct2, foodstruct3 = {},{},{}
+        bigstruct={}
+        if os.path.isfile('/var/www/food/food/uploads/' + str(i) + '.txt'):
+            f=open('/var/www/food/food/uploads/' + str(i) + '.txt')
             lines=f.readlines()
-            day=datetime.datetime.strptime(lines[0], '%Y-%m-%d')
+            day=datetime.datetime.strptime(lines[0].rstrip(), '%Y-%m-%d')
             day=day.strftime("%A")
             bigstruct['Name']=day
             if len(lines) > 0:
-                foodstruct1['Entree']=lines[3]
-                foodstruct1['Side']=lines[5]
+                foodstruct1['Entree']=lines[3].rstrip()
+                foodstruct1['Side']=lines[5].rstrip()
                 for j in range(6,10):
-                    line=lines[j].split(' ')
-                    foodstruct1[line[0]]=line[1]
+                    line=lines[j].split(':')
+                    #print line
+                    if len(line) > 1:
+                        foodstruct1[line[0].rstrip()]=line[1].lstrip().rstrip()
             if len(lines) > 10:
-                foodstruct2['Entree']=lines[13]
-                foodstruct2['Side']=lines[15]
+                foodstruct2['Entree']=lines[13].rstrip()
+                foodstruct2['Side']=lines[15].rstrip()
                 for j in range(16,20):
-                    line=lines[j].split(' ')
-                    foodstruct2[line[0]]=line[1]
-            if len(lines) > 20:
-                foodstruct3['Entree']=lines[23]
-                foodstruct3['Side']=lines[25]
+                    #print str(j) + ' (' + str(i) + ')'
+                    line=lines[j].split(':')
+                    if len(line) > 1:
+                        foodstruct2[line[0].rstrip()]=line[1].lstrip().rstrip()
+            if len(lines) > 21:
+                foodstruct3['Entree']=lines[23].rstrip()
+                foodstruct3['Side']=lines[25].rstrip()
                 for j in range(26,30):
-                    line=lines[j].split(' ')
-                    foodstruct3[line[0]]=line[1]
-            bigstruct[lines[2]]=foodstruct1
-            bigstruct[lines[12]]=foodstruct2
-            bigstruct[lines[22]]=foodstruct3
+                    line=lines[j].split(':')
+                    if len(line) > 1:
+                        foodstruct3[line[0].rstrip()]=line[1].lstrip().rstrip()
+            blankCourse = {'Entree':'','Side':'','Calories':'','Protein':'','Carbs':'','Fat':''}
+            if foodstruct1:
+                bigstruct[lines[1].rstrip()]=foodstruct1
+            if foodstruct2:
+                bigstruct[lines[11].rstrip()]=foodstruct2
+            if foodstruct3:
+                bigstruct[lines[21].rstrip()]=foodstruct3
+
+            for c in 'Breakfast', 'Lunch', 'Dinner':
+                if c not in bigstruct.keys():
+                    bigstruct[c] = blankCourse
+
             biglist.append(bigstruct)
             
     return biglist

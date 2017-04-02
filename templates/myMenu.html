@@ -152,7 +152,13 @@
                         <tr>
                             <td><b>Carbs</b></td>
                             {% for day in Menu %}
-                            <td>{{ day[mType]["Carbs"] }}</td>
+                            <td>{{ day[mType]["Carbohydrates"] }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td><b>Fats</b></td>
+                            {% for day in Menu %}
+                            <td>{{ day[mType]["Fat"] }}</td>
                             {% endfor %}
                         </tr>
                         {% endfor %}

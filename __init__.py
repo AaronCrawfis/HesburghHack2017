@@ -131,9 +131,6 @@ def writeFileFromForm(form):
         mealchoice = nutrition.getMeal(mealoptions, venue)
         nutrition.writetxtfile(mealchoice, course, dayNum)
 
-def buildMenu():
-    pass
-
 def getMacros():
     macros = dict()
     for i in range(7):
@@ -232,13 +229,15 @@ def menuPlanner():
             writeFileFromForm(request.form)
             return render_template('menuPlanner.html', dayName=nameOfDayInXDays(dayNum), dayNum=dayNum)
         else:
+            writeFileFromForm(request.form)
             return redirect(url_for('myMenu'))
 
 # My Menu ---------------------------
 @app.route('/myMenu')
 def myMenu():
-    realMenu = buildMenu()
-    return render_template('myMenu.html', Menu=tempMenu)
+    realMenu = nutrition.structfromFile()
+    print realMenu
+    return render_template('myMenu.html', Menu=realMenu)
 
 # Macro Tracker ----------------------
 @app.route('/macroTracker')
