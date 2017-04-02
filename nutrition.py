@@ -10,20 +10,24 @@ import random
 import requests
 import re
 
-def getOptions(eat, venue, course='Dinner', uday=0):
+def getOptions(eat, venue, course, uday=0):
     
     if not eat:
         return
     else:
-        if venue == 'S':
-            nutr = requests.get(sdh).json()
-        elif venue == 'N':
+        if venue == 'ndh':
             nutr = requests.get(ndh).json()
         else:
-            return
+            nutr = requests.get(sdh).json()
         
         target=datetime.date.today()
         target+=datetime.timedelta(days=uday)
+
+        day = target.strftime("%A")
+        if (day == 'Sunday' or day == 'Saturday') and (course == 'Lunch'):
+            course = 'Brunch'
+        if (day == 'Sunday' or day == 'Saturday') and (course == 'Breakfast'):
+            course = 'Continental Breakfast'
         
         for i in range(len(nutr)):
             testdate=nutr[i]['EventStart'][0:10]
@@ -31,19 +35,28 @@ def getOptions(eat, venue, course='Dinner', uday=0):
             if testdate.day == target.day and nutr[i]['Meal'] == course:
                 return nutr[i]['Courses']
     
-def getMeal(choices, fat=0, carbs=0, protein=0):
+def getMeal(choices, venue, fat=0, carbs=0, protein=0):
     
     sideslist=[]
     mainlist=[]
     pick = True
 
-    for i in range(len(choices)):
-        if choices[i]['Name'] in sides:
-            for j in range(len(choices[i]['MenuItems'])):
-                sideslist.append(choices[i]['MenuItems'][j])
-        elif choices[i]['Name'] in entrees:
-            for j in range(len(choices[i]['MenuItems'])):
-                mainlist.append(choices[i]['MenuItems'][j])  
+    if venue == 'ndh':
+        for i in range(len(choices)):
+            if choices[i]['Name'] in sides:
+                for j in range(len(choices[i]['MenuItems'])):
+                    sideslist.append(choices[i]['MenuItems'][j])
+            elif choices[i]['Name'] in entrees:
+                for j in range(len(choices[i]['MenuItems'])):
+                    mainlist.append(choices[i]['MenuItems'][j])
+    else:
+        for i in range(len(choices)):
+            if choices[i]['Name'] in sides:
+                for j in range(len(choices[i]['MenuItems'])):
+                    sideslist.append(choices[i]['MenuItems'][j])
+            elif choices[i]['Name'] in sdhentrees:
+                for j in range(len(choices[i]['MenuItems'])):
+                    mainlist.append(choices[i]['MenuItems'][j])
     
     while pick:
         sidechoice=random.choice(sideslist)
@@ -53,12 +66,12 @@ def getMeal(choices, fat=0, carbs=0, protein=0):
         mainname=mainchoice['Name']
         mainnutr=NutritionLookup(mainchoice['NutritionURL'])
         while type(sidenutr) != dict:
-            sideslist.remove(sidename)
+            #sideslist.remove(sidename)
             sidechoice=random.choice(sideslist)
             sidename=sidechoice['Name']
             sidenutr=NutritionLookup(sidechoice['NutritionURL'])
         while type(mainnutr) != dict:
-            mainlist.remove(mainname)
+            #mainlist.remove(mainname)
             mainchoice=random.choice(mainlist)
             mainname=mainchoice['Name']
             mainnutr=NutritionLookup(mainchoice['NutritionURL'])
@@ -143,9 +156,10 @@ def NutritionLookup(url):
     return nutdict
 
 def writetxtfile(mealchoice, uday=0):
+    filename = '/var/www/food/food/uploads/' + str(uday) + '.txt'
     today=datetime.date.today()
     today+=datetime.timedelta(days=uday)
-    file = open('0.txt','w')
+    file = open(filename,'a')
     file.write(str(today)+'\n')
     file.write('Entree\n')
     file.write(mealchoice[0]+'\n')

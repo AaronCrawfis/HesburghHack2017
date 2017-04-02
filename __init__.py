@@ -15,6 +15,8 @@ from twilio import TwilioRestException
 from twilio.rest import TwilioRestClient
 
 import datetime
+import os
+import sys
 
 import nutrition
 
@@ -83,10 +85,12 @@ def writeFileFromForm(form):
     filePath = '/var/www/food/food/uploads/'
 
     # All
-    dayNum = form['dayNum']
+    dayNum = int(form['dayNum'])
 
     # Prep
-    os.remove(filePath + str(dayNum) + ".txt")
+    filename = filePath + str(dayNum) + ".txt"
+    if os.path.isfile(filename):
+        os.remove(filename)
 
     # Breakfast ----------------------------
     if form['breakfast'] == 'yes':
@@ -96,9 +100,11 @@ def writeFileFromForm(form):
     venue = form['bVenue']
     course = 'Breakfast'
     # Run Functions
-    mealoptions = getOptions(eat, venue, course, dayNum)
-    mealchoice = getMeal(mealoptions)
-    nutrition.writetxtfile(0, mealchoice)
+    sys.stdout.flush()
+    mealoptions = nutrition.getOptions(eat, venue, course, dayNum)
+    if mealoptions:
+        mealchoice = nutrition.getMeal(mealoptions, venue)
+        nutrition.writetxtfile(mealchoice, dayNum)
     # Lunch ---------------------------------
     if form['lunch'] == 'yes':
         eat = True
@@ -107,9 +113,11 @@ def writeFileFromForm(form):
     venue = form['lVenue']
     course = 'Lunch'
     # Run Functions
-    mealoptions = getOptions(eat, venue, course, dayNum)
-    mealchoice = getMeal(mealoptions)
-    nutrition.writetxtfile(dayNum, mealchoice)
+    mealoptions = nutrition.getOptions(eat, venue, course, dayNum)
+    print mealoptions
+    if mealoptions:
+        mealchoice = nutrition.getMeal(mealoptions, venue)
+        nutrition.writetxtfile(mealchoice, dayNum)
     # Dinner ---------------------------------
     if form['dinner'] == 'yes':
         eat = True
@@ -118,9 +126,10 @@ def writeFileFromForm(form):
     venue = form['dVenue']
     course = 'Dinner'
     # Run Functions
-    mealoptions = getOptions(eat, venue, course, dayNum)
-    mealchoice = getMeal(mealoptions)
-    nutrition.writetxtfile(mealchoice, dayNum)
+    mealoptions = nutrition.getOptions(eat, venue, course, dayNum)
+    if mealoptions:
+        mealchoice = nutrition.getMeal(mealoptions, venue)
+        nutrition.writetxtfile(mealchoice, dayNum)
 
 def buildMenu():
     pass
