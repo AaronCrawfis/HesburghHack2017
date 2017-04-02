@@ -242,14 +242,14 @@ notmains_dl=['Stealth French Fries', 'Thin Spaghetti',
           'Fried Seasoned Potato Cubes', 'Marinara Sauce',
           'Basil Pesto Sauce w/o Nuts', 'White Dinner Rolls',
           'Steamed Chinese Rice', 'Med Rare Deli Roast Beef',
-          'Roll Kaiser Corn 4.5-inch', 'White Sub Roll']
+          'Roll Kaiser Corn 4.5-inch', 'White Sub Roll','Marinara Sauce Original','Funnel Cake Fries','Pretzel Sticks Iced Cinnamon']
 notsides_dl=['Pesto Salmon', 'Honey Ginger Pork Loin', 'Pork Gravy',
             'Chicken Gravy', 'Jerk Chicken', 'Biscuits', 'Peppered Pan Gravy',
             'Brown Sauce','Gourmet Cinnamon Rolls',
             'Chicken Fried Steak', 'Crepe Bar', 'Pork Rub', 
-            'Shrimp Spaghetti', 'Condiment Bar', 'Horseradish Sauce']
-notmains_b=[]
-notsides_b=[]
+            'Shrimp Spaghetti', 'Condiment Bar', 'Horseradish Sauce','BBQ Dry Rub','Roast White & Dark Turkey Breast','Turkey Gravy']
+notmains_b=['Banana Nut Bread', 'Flour Tortilla']
+notsides_b=['Banana Nut Bread']
 
 eat = True
 course = 'Lunch'
